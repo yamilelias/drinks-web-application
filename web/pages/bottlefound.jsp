@@ -112,16 +112,16 @@
                             <a href="#"><i class="fa fa-glass fa-fw"></i> Recipes<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Create a Recipe</a>
+                                    <a href="addRecipe_Details.jsp">Create a Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="#">Find a Recipe</a>
+                                    <a href="findRecipe_Details.jsp">Find a Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="#">Update a Recipe</a>
+                                    <a href="updateRecipe_Details.jsp">Update a Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="#">Delete a Recipe</a>
+                                    <a href="deleteRecipe_Details.jsp">Delete a Recipe</a>
                                 </li>
                                 <!-- Bottles -->
                                 <li>
