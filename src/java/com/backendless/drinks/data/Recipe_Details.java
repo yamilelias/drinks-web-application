@@ -18,6 +18,20 @@ public class Recipe_Details
   private java.util.Date updated;
   private Double priceSmall;
   private java.util.Date created;
+  
+  public Recipe_Details(){
+      
+  }
+  
+  public Recipe_Details(String des,String name,double pb,double pm,double ps){
+      description = des;
+      this.name = name;
+      priceBig = pb;
+      priceMedium = pm;
+      priceSmall = ps;
+  }
+  
+  
   public String getOwnerId()
   {
     return ownerId;
