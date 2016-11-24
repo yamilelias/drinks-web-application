@@ -5,7 +5,14 @@
 --%>
 
 <%@page import="com.backendless.Backendless"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.backendless.BackendlessCollection"%>
+<%@page import="com.backendless.persistence.QueryOptions"%>
+<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
 <%@page import="com.backendless.drinks.data.Order_Details" %>
+<%@page import="com.backendless.drinks.data.Order_Components" %>
+<%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Components" %>
 <%@page import="com.backendless.drinks.data.Defaults" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -41,10 +48,25 @@
     <![endif]-->    
 
     <%
-        double sp = Double.parseDouble(request.getParameter("sellingprice"));
-        String size = request.getParameter("size");
+        String size = request.getParameter("column");
+        double sp = 0;
+        String name = (String) session.getAttribute("recipe");
+        
+        BackendlessDataQuery dataQuery2 = new BackendlessDataQuery();
+        dataQuery2.setWhereClause("recipeId.name = '" + name + "'");
+        QueryOptions queryOptions2 = new QueryOptions();
+        queryOptions2.addRelated("recipeId");
+        dataQuery2.setQueryOptions(queryOptions2);
+        BackendlessCollection<Recipe_Components> recipes2 = Backendless.Data.of(Recipe_Components.class).find(dataQuery2);
+        Iterator<Recipe_Components> iterator2 = recipes2.getCurrentPage().iterator();
+        
+        
+        int numberComponents = (Integer) session.getAttribute("numberComponents");
 
-        Order_Details od = new Order_Details(sp,size);
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause("name = '" + name + "'");
+        BackendlessCollection<Recipe_Details> recipes = Backendless.Data.of(Recipe_Details.class).find(dataQuery);
+        Iterator<Recipe_Details> iterator = recipes.getCurrentPage().iterator();
 
         Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
 
@@ -52,7 +74,34 @@
         String message = "";
 
         try{
-            Backendless.Persistence.save(od);
+            while(iterator.hasNext()){
+                Recipe_Details rd = iterator.next();
+                if(size.equals("big"))
+                    sp=rd.getPriceBig();
+                else if(size.equals("medium"))
+                    sp=rd.getPriceMedium();
+                else
+                    sp=rd.getPriceSmall();
+                Order_Details od = new Order_Details(sp,size,rd);
+                
+                Backendless.Persistence.save(od);
+                
+                int i=0;
+                while(iterator2.hasNext()){
+                    i++;
+                    Recipe_Components rc = iterator2.next();
+                    if((request.getParameter("component"+i))==null){
+                        //out.write("es falso "+ i);
+                        Order_Components oc = new Order_Components(rc.getAlcoholType(),false, od);
+                        Backendless.Persistence.save(oc);
+                    }
+                    else{
+                        //out.write("es verdadero "+ i);
+                        Order_Components oc = new Order_Components(rc.getAlcoholType(),true, od);
+                        Backendless.Persistence.save(oc);
+                    }
+                }
+            }
             saved = true;
         } catch(Exception e){
             message = e.getMessage();

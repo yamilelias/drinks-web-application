@@ -16,7 +16,6 @@ public class Order_Details {
     private java.util.Date created;
     private String objectId;
     private String size;
-    private Double productCost;
     private java.util.Date updated;
     private String ownerId;
     private BackendlessUser userId;
@@ -26,10 +25,11 @@ public class Order_Details {
 
     }
 
-    public Order_Details(double sp, String size) {
+    public Order_Details(double sp, String size, Recipe_Details recipeId) {
         orderDate = Calendar.getInstance().getTime();
         sellingPrice = sp;
         this.size = size;
+        this.recipeId = recipeId;
     }
 
     public java.util.Date getOrderDate() {
@@ -62,14 +62,6 @@ public class Order_Details {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public Double getProductCost() {
-        return productCost;
-    }
-
-    public void setProductCost(Double productCost) {
-        this.productCost = productCost;
     }
 
     public java.util.Date getUpdated() {

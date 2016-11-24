@@ -3,6 +3,14 @@
     Created on : Nov 22, 2016, 4:45:54 PM
     Author     : Dilan
 --%>
+<%@page import="com.backendless.Backendless"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.backendless.BackendlessCollection"%>
+<%@page import="com.backendless.persistence.QueryOptions"%>
+<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
+<%@page import="com.backendless.drinks.data.Order_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Defaults" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -241,16 +249,27 @@
                     <div class="col-lg-12">
                          <h5>Add an Order</h5>
             
-                        <form action="orderadded.jsp" method="get">
+                        <form action="orderadding.jsp" method="get">
                             <div class="block">
-                                <label for="sellingprice">Selling Price:</label><input type="text" name="sellingprice" placeholder="sellingprice" />
+                                    <label for="recipe">Select recipe</label>
+                                        <select name="column">
+                                    <%
+                                        Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
+                                        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+                                        dataQuery.setWhereClause("");
+                                        BackendlessCollection<Recipe_Details> recipes = Backendless.Data.of(Recipe_Details.class).find(dataQuery);
+                                        Iterator<Recipe_Details> iterator = recipes.getCurrentPage().iterator();
+                                        
+                                        while(iterator.hasNext()){
+                                            Recipe_Details rd = iterator.next();
+                                    %>          
+                                        <option value="<%=rd.getName()%>"><%=rd.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                        </select>
                             </div>
-                            <div class="block">
-                                <label for="size">Size:</label><input type="text" name="size" placeholder="size" />
-                            </div>
-                            <div class="btns">
-                                <input type="submit" value="Submit" />
-                            </div>
+                            <input type="submit" value="Submit" />
                         </form>
                     </div>
                     <!-- /.col-lg-12 -->

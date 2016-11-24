@@ -1,25 +1,35 @@
 <%-- 
-    Document   : recipeadded
-    Created on : Nov 19, 2016, 11:44:46 PM
+    Document   : orderadding
+    Created on : Nov 23, 2016, 6:51:46 PM
     Author     : Dilan
 --%>
-
-
 <%@page import="com.backendless.Backendless"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.backendless.BackendlessCollection"%>
+<%@page import="com.backendless.persistence.QueryOptions"%>
+<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
 <%@page import="com.backendless.drinks.data.Recipe_Details" %>
 <%@page import="com.backendless.drinks.data.Recipe_Components" %>
-<%@page import="com.backendless.drinks.data.Defaults" %>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Recipe Added</title>
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Add a Recipe</title>
+
+        <%
+        String name = request.getParameter("column");
+        session.setAttribute("recipe",name);
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause("recipeId.name = '" + name + "'");
+        QueryOptions queryOptions = new QueryOptions();
+        queryOptions.addRelated("recipeId");
+        dataQuery.setQueryOptions(queryOptions);
+        BackendlessCollection<Recipe_Components> recipes = Backendless.Data.of(Recipe_Components.class).find(dataQuery);
+        Iterator<Recipe_Components> iterator = recipes.getCurrentPage().iterator();
+        %>
+
+        <title>Adding <% out.print(name); %></title>
         <!-- Bootstrap Core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -29,9 +39,6 @@
         <!-- Custom CSS -->
         <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
-        <!-- Morris Charts CSS -->
-        <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
-
         <!-- Custom Fonts -->
         <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -40,44 +47,10 @@
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->    
-
-        <%
-            String description = request.getParameter("description");
-            String name = request.getParameter("name");
-            double bp = Double.parseDouble(request.getParameter("pricebig"));
-            double mp = Double.parseDouble(request.getParameter("pricemedium"));
-            double sp = Double.parseDouble(request.getParameter("pricesmall"));
-        
-            int numberComponents = (Integer)session.getAttribute("numberComponents");
-
-            Recipe_Details rd = new Recipe_Details(description,name , bp, mp,sp);
-            Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
-
-            boolean saved = false;
-            String message = "";
-
-            try{
-                Backendless.Persistence.save(rd);
-                for(int i=1;i<=numberComponents+1;i++){
-                    //System.out.println(numberComponents+"\n"+i);
-                    String component = request.getParameter("component"+i);
-                    int parts = Integer.parseInt(request.getParameter("parts"+i));
-                    Recipe_Components rc = new Recipe_Components(component,parts,rd);
-                    Backendless.Persistence.save(rc);
-                }
-                saved = true;
-            } catch(Exception e){
-                message = e.getMessage();
-                saved = false;
-            }
-        
-        
-        
-
-        %>
+        <![endif]-->
     </head>
     <body>
+
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -281,27 +254,52 @@
             <!-- /.navbar-static-side -->
         </nav>
 
-        <!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Recipe adding</h1>
-                        <% if(saved){ %>
-                        <h1>Recipe <% out.print(name); %> saved successfully!</h1>
-                        <% } else { %>
-                        <h1>Recipe <% out.print(name); %> could not be saved.</h1>
-                        <h3>This was the reason:</h3>
-                        <p> <% out.print(message); %> </p>
-                        <% } %>
+        <div id="wrapper">
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>Add Order</h5>
+
+                            <form action="orderadded.jsp" method="get">
+                                <div class="block">
+                                    <label for="recipe">Select Size</label>
+                                        <select name="column">                  
+                                            <option value="big">Big</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="small">Small</option>
+                                        </select>
+                                </div>
+                                <%
+                                    int x=0;
+                                    while (iterator.hasNext()) {
+                                        x++;
+                                        Recipe_Components b = iterator.next();
+                                %>
+                                <div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" checked="true" name="component<%=x%>"><%out.write(b.getAlcoholType());%>
+                                        </label>
+                                    </div>
+                                </div>
+                                <%  
+                                        session.setAttribute("NumberComponents",x);
+                                    }
+                                %>
+                                <div class="btns">
+                                    <input type="submit" value="Submit" />
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.col-lg-12 -->
+                    <!-- /.row -->
                 </div>
-                <!-- /.row -->
+                <!-- /.container-fluid -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
 
         <!-- jQuery -->
         <script src="../vendor/jquery/jquery.min.js"></script>

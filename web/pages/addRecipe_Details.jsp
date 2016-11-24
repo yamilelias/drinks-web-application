@@ -252,6 +252,11 @@
                             <div class="block">
                                 <label for="pricesmall">Price Small:</label>$<input type="number" min="0" name="pricesmall" placeholder="pricesmall" />
                             </div>
+                            <div class="block" id="componentRows">
+                                <label for="component1">Component:</label><input type="text" min="0" name="component1" placeholder="component1" />
+                                <label for="parts1">Parts:</label><input type="number" min="0" name="parts1" placeholder="parts1" />
+                                <button id="mas" type="button" onclick="addRow()">+</button>
+                            </div>
                             <div class="btns">
                                 <input type="submit" value="Submit" />
                             </div>
@@ -277,5 +282,30 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    
+    <script type="text/javascript">
+        <%
+            int x=1;
+        %>
+        var x=<%=x%>;
+        
+    /*$("#mas").click(function{
+        $("#componentRows").html("aaaaaa");
+    });*/
+        
+        function addRow(){
+            x++;
+            <%x++;%>
+            document.getElementById("componentRows").innerHTML += "<br>"+
+                    "<label for=\"component"+x+"\">Component:</label>"+
+                    "<input type=\"text\" min=\"0\" name=\"component"+x+"\" placeholder=\"component"+x+"\"/> "+
+                    "<label for=\"parts"+x+"\">Parts:</label>"+
+                    "<input type=\"number\" min=\"0\" name=\"parts"+x+"\" placeholder=\"parts"+x+"\"/>"
+            ;
+            <%
+                session.setAttribute("numberComponents",x);
+            %>
+        }
+    </script>
 </body>
 </html>

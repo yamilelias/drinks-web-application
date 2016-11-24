@@ -16,6 +16,16 @@ public class Recipe_Components
   private String alcoholType;
   private java.util.Date created;
   private Recipe_Details recipeId;
+  
+  public Recipe_Components(){
+      
+  }
+  
+  public Recipe_Components(String alcoholType,Integer parts,Recipe_Details recipeId){
+      this.alcoholType = alcoholType;
+      this.parts = parts;
+      this.recipeId = recipeId;
+  }
   public Integer getParts()
   {
     return parts;
