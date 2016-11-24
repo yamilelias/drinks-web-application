@@ -10,26 +10,26 @@ import com.backendless.persistence.BackendlessDataQuery;
 public class Order_Components
 {
   private java.util.Date updated;
-  private Double cost;
   private Boolean ordered;
   private String ownerId;
   private java.util.Date created;
   private String objectId;
-  private Bottle bottleId;
   private Order_Details orderId;
+  private String component;
+  
+  public Order_Components(){
+      
+  }
+  
+  public Order_Components(String component, Boolean ordered, Order_Details orderId){
+      this.component = component;
+      this.ordered = ordered;
+      this.orderId = orderId;
+  }
+  
   public java.util.Date getUpdated()
   {
     return updated;
-  }
-
-  public Double getCost()
-  {
-    return cost;
-  }
-
-  public void setCost( Double cost )
-  {
-    this.cost = cost;
   }
 
   public Boolean getOrdered()
@@ -55,16 +55,6 @@ public class Order_Components
   public String getObjectId()
   {
     return objectId;
-  }
-
-  public Bottle getBottleId()
-  {
-    return bottleId;
-  }
-
-  public void setBottleId( Bottle bottleId )
-  {
-    this.bottleId = bottleId;
   }
 
   public Order_Details getOrderId()
@@ -227,4 +217,18 @@ public class Order_Components
   {
     Backendless.Data.of( Order_Components.class ).find( query, callback );
   }
+
+    /**
+     * @return the component
+     */
+    public String getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponent(String component) {
+        this.component = component;
+    }
 }

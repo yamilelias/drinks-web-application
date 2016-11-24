@@ -10,309 +10,316 @@
 <%@page import="com.backendless.persistence.QueryOptions"%>
 <%@page import="com.backendless.persistence.BackendlessDataQuery"%>
 <%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Components" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <%
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        double bp = Double.parseDouble(request.getParameter("pricebig"));
-        double mp = Double.parseDouble(request.getParameter("pricemedium"));
-        double sp = Double.parseDouble(request.getParameter("pricesmall"));
+        <%
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            double bp = Double.parseDouble(request.getParameter("pricebig"));
+            double mp = Double.parseDouble(request.getParameter("pricemedium"));
+            double sp = Double.parseDouble(request.getParameter("pricesmall"));
+            int numberComponents = (Integer)session.getAttribute("numberComponents");
 
-        String message = "";
-        boolean updated = false;
+            String message = "";
+            boolean updated = false;
 
-        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-        dataQuery.setWhereClause("name = '" + name + "'");
-        QueryOptions queryOptions = new QueryOptions();
-        dataQuery.setQueryOptions(queryOptions);
-        BackendlessCollection<Recipe_Details> recipes = Backendless.Data.of(Recipe_Details.class).find(dataQuery);
-        Iterator<Recipe_Details> iterator = recipes.getCurrentPage().iterator();
+            BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+            dataQuery.setWhereClause("recipeId.name = '" + name + "'");
+            QueryOptions queryOptions = new QueryOptions();
+            queryOptions.addRelated("recipeId");
+            dataQuery.setQueryOptions(queryOptions);
+            BackendlessCollection<Recipe_Components> recipes = Backendless.Data.of(Recipe_Components.class).find(dataQuery);
+            Iterator<Recipe_Components> iterator = recipes.getCurrentPage().iterator();
 
-        try{
-           while (iterator.hasNext()) {
-                Recipe_Details rd = iterator.next();
-                rd.setName(name);
-                rd.setDescription(description);
-                rd.setPriceBig(bp);
-                rd.setPriceMedium(mp);
-                rd.setPriceSmall(sp);
-                Backendless.Persistence.save(rd);
+            try{
+                int i=0;
+               while (iterator.hasNext()) {
+                   i++;
+                    Recipe_Components rd = iterator.next();
+                    rd.getRecipeId().setName(name);
+                    rd.getRecipeId().setDescription(description);
+                    rd.getRecipeId().setPriceBig(bp);
+                    rd.getRecipeId().setPriceMedium(mp);
+                    rd.getRecipeId().setPriceSmall(sp);
+                        rd.setAlcoholType(request.getParameter("component"+i));
+                        rd.setParts(Integer.parseInt(request.getParameter("parts"+i)));
+                    Backendless.Persistence.save(rd);
+               }
+
+               updated = true;
+            } catch(Exception e){
+                message = e.getMessage();
             }
 
-           updated = true;
-        } catch(Exception e){
-            message = e.getMessage();
-        }
+        %>
+        <title>Bottle Updated</title>
 
-    %>
-    <title>Bottle Updated</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- MetisMenu CSS -->
+        <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-    <!-- MetisMenu CSS -->
-    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+        <!-- Morris Charts CSS -->
+        <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+        <!-- Custom Fonts -->
+        <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- Custom Fonts -->
-    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div id="wrapper">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
-    <div id="wrapper">
+            <!-- Navigation -->
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">Drinks Web Application</a>
+                </div>
+                <!-- /.navbar-header -->
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">Drinks Web Application</a>
-        </div>
-        <!-- /.navbar-header -->
-
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
                     </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
+                    <!-- /.dropdown -->
                 </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-        </ul>
-        <!-- /.navbar-top-links -->
+                <!-- /.navbar-top-links -->
 
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" disabled placeholder="Search...">
-                            <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" disabled>
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                        </div>
-                        <!-- /input-group -->
-                    </li>
-                    <!-- Dashboard -->
-                    <li>
-                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <!-- Recipes -->
-                    <li>
-                        <a href="#"><i class="fa fa-glass fa-fw"></i> Recipes<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Create a Recipe</a>
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                            <li class="sidebar-search">
+                                <div class="input-group custom-search-form">
+                                    <input type="text" class="form-control" disabled placeholder="Search...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" disabled>
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <!-- /input-group -->
                             </li>
+                            <!-- Dashboard -->
                             <li>
-                                <a href="#">Find a Recipe</a>
+                                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                             </li>
+                            <!-- Recipes -->
                             <li>
-                                <a href="#">Update a Recipe</a>
-                            </li>
-                            <li>
-                                <a href="#">Delete a Recipe</a>
-                            </li>
-                            <!-- Bottles -->
-                            <li>
-                                <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <a href="#"><i class="fa fa-glass fa-fw"></i> Recipes<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="#">Create a Bottle</a>
+                                        <a href="addRecipe_Details.jsp">Create a Recipe</a>
                                     </li>
                                     <li>
-                                        <a href="#">Find a Bottle</a>
+                                        <a href="findRecipe_Details.jsp">Find a Recipe</a>
                                     </li>
                                     <li>
-                                        <a href="#">Update a Bottle</a>
+                                        <a href="updateRecipe_Details.jsp">Update a Recipe</a>
                                     </li>
                                     <li>
-                                        <a href="#">Delete a Bottle</a>
+                                        <a href="deleteRecipe_Details.jsp">Delete a Recipe</a>
                                     </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                    <!-- Orders -->
-                    <li>
-                        <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Create an Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Find an Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Update an Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Delete an Order</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                    <!-- Users -->
-                    <li>
-                        <a href="#"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Create an User</a>
-                            </li>
-                            <li>
-                                <a href="#">Find an User</a>
-                            </li>
-                            <li>
-                                <a href="#">Update an User</a>
-                            </li>
-                            <li>
-                                <a href="#">Delete an User</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                    <!-- Development -->
-                    <li>
-                        <a href="#"><i class="fa fa-code fa-fw"></i> Development<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <!-- Charts -->
-                            <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                    <!-- Bottles -->
                                     <li>
-                                        <a href="flot.html">Flot Charts</a>
-                                    </li>
-                                    <li>
-                                        <a href="morris.html">Morris.js Charts</a>
+                                        <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            <li>
+                                                <a href="addBottle.jsp">Create a Bottle</a>
+                                            </li>
+                                            <li>
+                                                <a href="findBottle.jsp">Find a Bottle</a>
+                                            </li>
+                                            <li>
+                                                <a href="updateBottle.jsp">Update a Bottle</a>
+                                            </li>
+                                            <li>
+                                                <a href="deleteBottle.jsp">Delete a Bottle</a>
+                                            </li>
+                                        </ul>
+                                        <!-- /.nav-third-level -->
                                     </li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
-                            <!-- Forms -->
+                            <!-- Orders -->
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                            </li>
-                            <!-- Sample Pages -->
-                            <li>
-                                <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="blank.html">Blank Page</a>
+                                        <a href="addOrder.jsp">Create an Order</a>
                                     </li>
                                     <li>
-                                        <a href="dashboard.html">Dashboard Page</a>
+                                        <a href="findOrder.jsp">Find an Order</a>
                                     </li>
                                     <li>
-                                        <a href="login.html">Login Page</a>
+                                        <a href="#">Update an Order</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete an Order</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-third-level -->
                             </li>
-                            <!-- Tables -->
+                            <!-- Users -->
                             <li>
-                                <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                            </li>
-                            <!-- UI Elements -->
-                            <li>
-                                <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
+                                <a href="#"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="panels-wells.html">Panels and Wells</a>
+                                        <a href="#">Create an User</a>
                                     </li>
                                     <li>
-                                        <a href="buttons.html">Buttons</a>
+                                        <a href="#">Find an User</a>
                                     </li>
                                     <li>
-                                        <a href="notifications.html">Notifications</a>
+                                        <a href="#">Update an User</a>
                                     </li>
                                     <li>
-                                        <a href="typography.html">Typography</a>
-                                    </li>
-                                    <li>
-                                        <a href="icons.html"> Icons</a>
-                                    </li>
-                                    <li>
-                                        <a href="grid.html">Grid</a>
+                                        <a href="#">Delete an User</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-third-level -->
+                            </li>
+                            <!-- Development -->
+                            <li>
+                                <a href="#"><i class="fa fa-code fa-fw"></i> Development<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <!-- Charts -->
+                                    <li>
+                                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            <li>
+                                                <a href="flot.html">Flot Charts</a>
+                                            </li>
+                                            <li>
+                                                <a href="morris.html">Morris.js Charts</a>
+                                            </li>
+                                        </ul>
+                                        <!-- /.nav-third-level -->
+                                    </li>
+                                    <!-- Forms -->
+                                    <li>
+                                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                                    </li>
+                                    <!-- Sample Pages -->
+                                    <li>
+                                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            <li>
+                                                <a href="blank.html">Blank Page</a>
+                                            </li>
+                                            <li>
+                                                <a href="dashboard.html">Dashboard Page</a>
+                                            </li>
+                                            <li>
+                                                <a href="login.html">Login Page</a>
+                                            </li>
+                                        </ul>
+                                        <!-- /.nav-third-level -->
+                                    </li>
+                                    <!-- Tables -->
+                                    <li>
+                                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                                    </li>
+                                    <!-- UI Elements -->
+                                    <li>
+                                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            <li>
+                                                <a href="panels-wells.html">Panels and Wells</a>
+                                            </li>
+                                            <li>
+                                                <a href="buttons.html">Buttons</a>
+                                            </li>
+                                            <li>
+                                                <a href="notifications.html">Notifications</a>
+                                            </li>
+                                            <li>
+                                                <a href="typography.html">Typography</a>
+                                            </li>
+                                            <li>
+                                                <a href="icons.html"> Icons</a>
+                                            </li>
+                                            <li>
+                                                <a href="grid.html">Grid</a>
+                                            </li>
+                                        </ul>
+                                        <!-- /.nav-third-level -->
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
                             </li>
                         </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
-    </nav>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+                <!-- /.navbar-static-side -->
+            </nav>
 
-        <!-- Page Content -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Recipe Update</h1>
-                    <% if(updated){ %>
+            <!-- Page Content -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Recipe Update</h1>
+                        <% if(updated){ %>
                         <h2>Recipe <% out.print(name); %> updated successfully!</h2>
-                    <% } else { %>
+                        <% } else { %>
                         <h2>Recipe <% out.print(name); %> could not be updated.</h2>
                         <h3>This was the reason:</h3>
                         <p> <% out.print(message); %> </p>
-                    <% } %>
+                        <% } %>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
+            <!-- /.container-fluid -->
+
         </div>
-        <!-- /.container-fluid -->
+        <!-- /#wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+        <!-- jQuery -->
+        <script src="../vendor/jquery/jquery.min.js"></script>
 
-    <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
-</body>
+        <!-- Custom Theme JavaScript -->
+        <script src="../dist/js/sb-admin-2.js"></script>
+    </body>
 </html>

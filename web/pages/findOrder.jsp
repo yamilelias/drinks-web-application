@@ -1,7 +1,7 @@
 <%-- 
-    Document   : findBottle
-    Created on : Nov 18, 2016, 9:07:14 PM
-    Author     : Yamil Elías <yamileliassoto@gmail.com>
+    Document   : findOrder.jsp
+    Created on : Nov 23, 2016, 11:12:57 AM
+    Author     : Dilan
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Find a Bottle</title>
+    <title>Find a Recipe</title>
     
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -247,16 +247,14 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h5>Find a Bottle</h5>
+                        <h5>Find an Order</h5>
 
-                        <form action="bottlefound.jsp" method="get">
+                        <form action="orderfound.jsp" method="get">
                             <div class="block">
                                 <label for="column">Find by:</label>
                                 <select name="column">
-                                    <option value="name">Name</option>
-                                    <option value="alcoholType">Alcohol Type</option>
-                                    <option value="mililiters">Milliliters</option>
-                                    <option value="bottleCost">Cost</option>
+                                    <option value="sellingprice">Selling Price</option>
+                                    <option value="size">Size</option>
                                 </select>
                                 <input type="text" name="value" />
                             </div>

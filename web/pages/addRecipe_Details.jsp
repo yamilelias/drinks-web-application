@@ -100,13 +100,13 @@
                                             <a href="addBottle.jsp">Create a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Find a Bottle</a>
+                                            <a href="findBottle.jsp">Find a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Update a Bottle</a>
+                                            <a href="updateBottle.jsp">Update a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete a Bottle</a>
+                                            <a href="deleteBottle.jsp">Delete a Bottle</a>
                                         </li>
                                     </ul>
                                     <!-- /.nav-third-level -->
@@ -119,10 +119,10 @@
                             <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Create an Order</a>
+                                    <a href="addOrder.jsp">Create an Order</a>
                                 </li>
                                 <li>
-                                    <a href="#">Find an Order</a>
+                                    <a href="findOrder.jsp">Find an Order</a>
                                 </li>
                                 <li>
                                     <a href="#">Update an Order</a>
@@ -234,7 +234,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                         <h5>Add a Bottle</h5>
+                         <h5>Add a Recipe</h5>
             
                         <form action="recipeadded.jsp" method="get">
                             <div class="block">
@@ -251,6 +251,11 @@
                             </div>
                             <div class="block">
                                 <label for="pricesmall">Price Small:</label>$<input type="number" min="0" name="pricesmall" placeholder="pricesmall" />
+                            </div>
+                            <div class="block" id="componentRows">
+                                <label for="component1">Component:</label><input type="text" min="0" name="component1" placeholder="component1" />
+                                <label for="parts1">Parts:</label><input type="number" min="0" name="parts1" placeholder="parts1" />
+                                <button id="mas" type="button" onclick="addRow()">+</button>
                             </div>
                             <div class="btns">
                                 <input type="submit" value="Submit" />
@@ -277,5 +282,30 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    
+    <script type="text/javascript">
+        <%
+            int x=1;
+        %>
+        var x=<%=x%>;
+        
+    /*$("#mas").click(function{
+        $("#componentRows").html("aaaaaa");
+    });*/
+        
+        function addRow(){
+            x++;
+            <%x++;%>
+            document.getElementById("componentRows").innerHTML += "<br>"+
+                    "<label for=\"component"+x+"\">Component:</label>"+
+                    "<input type=\"text\" min=\"0\" name=\"component"+x+"\" placeholder=\"component"+x+"\"/> "+
+                    "<label for=\"parts"+x+"\">Parts:</label>"+
+                    "<input type=\"number\" min=\"0\" name=\"parts"+x+"\" placeholder=\"parts"+x+"\"/>"
+            ;
+            <%
+                session.setAttribute("numberComponents",x);
+            %>
+        }
+    </script>
 </body>
 </html>

@@ -120,16 +120,16 @@
                             <a href="#"><i class="fa fa-glass fa-fw"></i> Recipes<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Create a Recipe</a>
+                                    <a href="addRecipe_Details.jsp">Create a Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="#">Find a Recipe</a>
+                                    <a href="findRecipe_Details.jsp">Find a Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="#">Update a Recipe</a>
+                                    <a href="updateRecipe_Details.jsp">Update a Recipe</a>
                                 </li>
                                 <li>
-                                    <a href="#">Delete a Recipe</a>
+                                    <a href="deleteRecipe_Details.jsp">Delete a Recipe</a>
                                 </li>
                                 <!-- Bottles -->
                                 <li>
@@ -139,13 +139,13 @@
                                             <a href="addBottle.jsp">Create a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Find a Bottle</a>
+                                            <a href="findBottle.jsp">Find a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Update a Bottle</a>
+                                            <a href="updateBottle.jsp">Update a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete a Bottle</a>
+                                            <a href="deleteBottle.jsp">Delete a Bottle</a>
                                         </li>
                                     </ul>
                                     <!-- /.nav-third-level -->
@@ -158,10 +158,10 @@
                             <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Create an Order</a>
+                                    <a href="addOrder.jsp">Create an Order</a>
                                 </li>
                                 <li>
-                                    <a href="#">Find an Order</a>
+                                    <a href="findOrder.jsp">Find an Order</a>
                                 </li>
                                 <li>
                                     <a href="#">Update an Order</a>

@@ -128,82 +128,82 @@
                         <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <!-- Recipes -->
-                    <li>
-                        <a href="#"><i class="fa fa-glass fa-fw"></i> Recipes<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Create a Recipe</a>
-                            </li>
-                            <li>
-                                <a href="#">Find a Recipe</a>
-                            </li>
-                            <li>
-                                <a href="#">Update a Recipe</a>
-                            </li>
-                            <li>
-                                <a href="#">Delete a Recipe</a>
-                            </li>
-                            <!-- Bottles -->
-                            <li>
-                                <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Create a Bottle</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Find a Bottle</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Update a Bottle</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Delete a Bottle</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                    <!-- Orders -->
-                    <li>
-                        <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Create an Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Find an Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Update an Order</a>
-                            </li>
-                            <li>
-                                <a href="#">Delete an Order</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                    <!-- Users -->
-                    <li>
-                        <a href="#"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Create an User</a>
-                            </li>
-                            <li>
-                                <a href="#">Find an User</a>
-                            </li>
-                            <li>
-                                <a href="#">Update an User</a>
-                            </li>
-                            <li>
-                                <a href="#">Delete an User</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-third-level -->
-                    </li>
-                    <!-- Development -->
+                        <li>
+                            <a href="#"><i class="fa fa-glass fa-fw"></i> Recipes<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="addRecipe_Details.jsp">Create a Recipe</a>
+                                </li>
+                                <li>
+                                    <a href="findRecipe_Details.jsp">Find a Recipe</a>
+                                </li>
+                                <li>
+                                    <a href="updateRecipe_Details.jsp">Update a Recipe</a>
+                                </li>
+                                <li>
+                                    <a href="deleteRecipe_Details.jsp">Delete a Recipe</a>
+                                </li>
+                                <!-- Bottles -->
+                                <li>
+                                    <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="addBottle.jsp">Create a Bottle</a>
+                                        </li>
+                                        <li>
+                                            <a href="findBottle.jsp">Find a Bottle</a>
+                                        </li>
+                                        <li>
+                                            <a href="updateBottle.jsp">Update a Bottle</a>
+                                        </li>
+                                        <li>
+                                            <a href="deleteBottle.jsp">Delete a Bottle</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                </li>
+                            </ul>
+                            <!-- /.nav-third-level -->
+                        </li>
+                        <!-- Orders -->
+                        <li>
+                            <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="addOrder.jsp">Create an Order</a>
+                                </li>
+                                <li>
+                                    <a href="findOrder.jsp">Find an Order</a>
+                                </li>
+                                <li>
+                                    <a href="#">Update an Order</a>
+                                </li>
+                                <li>
+                                    <a href="#">Delete an Order</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-third-level -->
+                        </li>
+                        <!-- Users -->
+                        <li>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Create an User</a>
+                                </li>
+                                <li>
+                                    <a href="#">Find an User</a>
+                                </li>
+                                <li>
+                                    <a href="#">Update an User</a>
+                                </li>
+                                <li>
+                                    <a href="#">Delete an User</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-third-level -->
+                        </li>
+                        <!-- Development -->
                     <li>
                         <a href="#"><i class="fa fa-code fa-fw"></i> Development<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">

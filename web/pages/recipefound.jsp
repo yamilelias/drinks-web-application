@@ -11,6 +11,7 @@
 <%@page import="com.backendless.persistence.QueryOptions"%>
 <%@page import="com.backendless.persistence.BackendlessDataQuery"%>
 <%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Components" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -46,11 +47,12 @@
             String value = request.getParameter("value");
             
             BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-            dataQuery.setWhereClause(column + " = '" + value + "'");
+            dataQuery.setWhereClause("recipeId."+column + " = '" + value + "'");
             QueryOptions queryOptions = new QueryOptions();
+            queryOptions.addRelated("recipeId");
             dataQuery.setQueryOptions(queryOptions);
-            BackendlessCollection<Recipe_Details> recipes = Backendless.Data.of(Recipe_Details.class).find(dataQuery);
-            Iterator<Recipe_Details> iterator = recipes.getCurrentPage().iterator();
+            BackendlessCollection<Recipe_Components> recipes = Backendless.Data.of(Recipe_Components.class).find(dataQuery);
+            Iterator<Recipe_Components> iterator = recipes.getCurrentPage().iterator();
             
         %>
     </head>
@@ -129,16 +131,16 @@
                                     <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">Create a Bottle</a>
+                                            <a href="addBottle.jsp">Create a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Find a Bottle</a>
+                                            <a href="findBottle.jsp">Find a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Update a Bottle</a>
+                                            <a href="updateBottle.jsp">Update a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete a Bottle</a>
+                                            <a href="deleteBottle.jsp">Delete a Bottle</a>
                                         </li>
                                     </ul>
                                     <!-- /.nav-third-level -->
@@ -151,10 +153,10 @@
                             <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Create an Order</a>
+                                    <a href="addOrder.jsp">Create an Order</a>
                                 </li>
                                 <li>
-                                    <a href="#">Find an Order</a>
+                                    <a href="findOrder.jsp">Find an Order</a>
                                 </li>
                                 <li>
                                     <a href="#">Update an Order</a>
@@ -263,8 +265,8 @@
         <!-- Page Content -->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1>Bottles Found</h1>
+                <div class="col-md-push-3 col-md-9">
+                    <h1>Recipes Found</h1>
 
                     <table class="table table-striped">
                         <thead>
@@ -276,14 +278,31 @@
                         </thead>
                         <tbody>
                             <%
+                                boolean first=true;
                                 while (iterator.hasNext()) {
-                                    Recipe_Details rd = iterator.next();
+                                    Recipe_Components rd = iterator.next();
                                     out.write("<tr>");
-                                    out.write("<td>" + rd.getName()+"</td>");
-                                    out.write("<td>" + rd.getDescription()+"</td>");
-                                    out.write("<td>" + rd.getPriceBig()+"</td>");
-                                    out.write("<td>" + rd.getPriceMedium()+"</td>");
-                                    out.write("<td>" + rd.getPriceSmall()+"</td>");
+                                    if(first){
+                                    out.write("<td>" + rd.getRecipeId().getName()+"</td>");
+                                    out.write("<td>" + rd.getRecipeId().getDescription()+"</td>");
+                                    out.write("<td>" + rd.getRecipeId().getPriceBig()+"</td>");
+                                    out.write("<td>" + rd.getRecipeId().getPriceMedium()+"</td>");
+                                    out.write("<td>" + rd.getRecipeId().getPriceSmall()+"</td>");
+                            %>
+                            <thead>
+                            <th>Alcohol Type</th>
+                            <th>Parts</th>
+                            </thead>
+                            <%
+                                    }
+                                    first=false;
+                                
+                            %>
+                        </tbody>
+                        <tbody>
+                            <%
+                                    out.write("<td>" + rd.getAlcoholType()+"</td>");
+                                    out.write("<td>" + rd.getParts()+"</td>");
                                     out.write("</tr>");
                                 }
                             %>

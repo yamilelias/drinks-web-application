@@ -128,16 +128,16 @@
                                     <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">Create a Bottle</a>
+                                            <a href="addBottle.jsp">Create a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Find a Bottle</a>
+                                            <a href="findBottle.jsp">Find a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Update a Bottle</a>
+                                            <a href="updateBottle.jsp">Update a Bottle</a>
                                         </li>
                                         <li>
-                                            <a href="#">Delete a Bottle</a>
+                                            <a href="deleteBottle.jsp">Delete a Bottle</a>
                                         </li>
                                     </ul>
                                     <!-- /.nav-third-level -->
@@ -150,10 +150,10 @@
                             <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Create an Order</a>
+                                    <a href="addOrder.jsp">Create an Order</a>
                                 </li>
                                 <li>
-                                    <a href="#">Find an Order</a>
+                                    <a href="findOrder.jsp">Find an Order</a>
                                 </li>
                                 <li>
                                     <a href="#">Update an Order</a>

@@ -1,17 +1,22 @@
 <%-- 
-    Document   : findBottle
-    Created on : Nov 18, 2016, 9:07:14 PM
-    Author     : Yamil Elías <yamileliassoto@gmail.com>
+    Document   : addOrder.jsp
+    Created on : Nov 22, 2016, 4:45:54 PM
+    Author     : Dilan
 --%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.backendless.Backendless"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.backendless.BackendlessCollection"%>
+<%@page import="com.backendless.persistence.QueryOptions"%>
+<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
+<%@page import="com.backendless.drinks.data.Order_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Defaults" %>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Find a Bottle</title>
-    
+    <title>Add an Order</title>
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -20,9 +25,6 @@
 
     <!-- Custom CSS -->
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -33,14 +35,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    </script>
 </head>
 <body>
     
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -241,28 +240,36 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
+    
+    <div id="wrapper">
         <!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h5>Find a Bottle</h5>
-
-                        <form action="bottlefound.jsp" method="get">
+                         <h5>Add an Order</h5>
+            
+                        <form action="orderadding.jsp" method="get">
                             <div class="block">
-                                <label for="column">Find by:</label>
-                                <select name="column">
-                                    <option value="name">Name</option>
-                                    <option value="alcoholType">Alcohol Type</option>
-                                    <option value="mililiters">Milliliters</option>
-                                    <option value="bottleCost">Cost</option>
-                                </select>
-                                <input type="text" name="value" />
+                                    <label for="recipe">Select recipe</label>
+                                        <select name="column">
+                                    <%
+                                        Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
+                                        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+                                        dataQuery.setWhereClause("");
+                                        BackendlessCollection<Recipe_Details> recipes = Backendless.Data.of(Recipe_Details.class).find(dataQuery);
+                                        Iterator<Recipe_Details> iterator = recipes.getCurrentPage().iterator();
+                                        
+                                        while(iterator.hasNext()){
+                                            Recipe_Details rd = iterator.next();
+                                    %>          
+                                        <option value="<%=rd.getName()%>"><%=rd.getName()%></option>
+                                    <%
+                                        }
+                                    %>
+                                        </select>
                             </div>
-                            <div class="btns">
-                                <input type="submit" value="Submit" />
-                            </div>
+                            <input type="submit" value="Submit" />
                         </form>
                     </div>
                     <!-- /.col-lg-12 -->
@@ -272,9 +279,7 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
 
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -289,4 +294,3 @@
     <script src="../dist/js/sb-admin-2.js"></script>
 </body>
 </html>
-

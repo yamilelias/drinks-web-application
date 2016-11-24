@@ -1,6 +1,6 @@
 <%-- 
-    Document   : recipeupdated
-    Created on : Nov 20, 2016, 12:25:33 AM
+    Document   : orderfound
+    Created on : Nov 23, 2016, 11:19:18 AM
     Author     : Dilan
 --%>
 
@@ -9,56 +9,15 @@
 <%@page import="com.backendless.BackendlessCollection"%>
 <%@page import="com.backendless.persistence.QueryOptions"%>
 <%@page import="com.backendless.persistence.BackendlessDataQuery"%>
-<%@page import="com.backendless.drinks.data.Recipe_Details" %>
-<%@page import="com.backendless.drinks.data.Recipe_Components" %>
+<%@page import="com.backendless.drinks.data.Order_Details" %>
+<%@page import="com.backendless.drinks.data.Order_Components" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-        <%
-            String name = request.getParameter("name");
-            String description = request.getParameter("description");
-            double bp = Double.parseDouble(request.getParameter("pricebig"));
-            double mp = Double.parseDouble(request.getParameter("pricemedium"));
-            double sp = Double.parseDouble(request.getParameter("pricesmall"));
-            int numberComponents = (Integer)session.getAttribute("numberComponents");
-
-            String message = "";
-            boolean updated = false;
-
-            BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-            dataQuery.setWhereClause("recipeId.name = '" + name + "'");
-            QueryOptions queryOptions = new QueryOptions();
-            queryOptions.addRelated("recipeId");
-            dataQuery.setQueryOptions(queryOptions);
-            BackendlessCollection<Recipe_Components> recipes = Backendless.Data.of(Recipe_Components.class).find(dataQuery);
-            Iterator<Recipe_Components> iterator = recipes.getCurrentPage().iterator();
-
-            try{
-                int i=0;
-               while (iterator.hasNext()) {
-                   i++;
-                    Recipe_Components rd = iterator.next();
-                    rd.getRecipeId().setName(name);
-                    rd.getRecipeId().setDescription(description);
-                    rd.getRecipeId().setPriceBig(bp);
-                    rd.getRecipeId().setPriceMedium(mp);
-                    rd.getRecipeId().setPriceSmall(sp);
-                        rd.setAlcoholType(request.getParameter("component"+i));
-                        rd.setParts(Integer.parseInt(request.getParameter("parts"+i)));
-                    Backendless.Persistence.save(rd);
-               }
-
-               updated = true;
-            } catch(Exception e){
-                message = e.getMessage();
-            }
-
-        %>
-        <title>Bottle Updated</title>
+        <title>Recipe Found</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -81,6 +40,20 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        <%
+            String column = request.getParameter("column");
+            String value = request.getParameter("value");
+            
+            BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+            dataQuery.setWhereClause("orderId."+column + " = '" + value + "'");
+            QueryOptions queryOptions = new QueryOptions();
+            queryOptions.addRelated("orderId");
+            dataQuery.setQueryOptions(queryOptions);
+            BackendlessCollection<Order_Components> orders = Backendless.Data.of(Order_Components.class).find(dataQuery);
+            Iterator<Order_Components> iterator = orders.getCurrentPage().iterator();
+            
+        %>
     </head>
     <body>
         <div id="wrapper">
@@ -157,16 +130,16 @@
                                         <a href="#"><i class="fa fa-beer fa-fw"></i> Bottles<span class="fa arrow"></span></a>
                                         <ul class="nav nav-third-level">
                                             <li>
-                                                <a href="addBottle.jsp">Create a Bottle</a>
+                                                <a href="#">Create a Bottle</a>
                                             </li>
                                             <li>
-                                                <a href="findBottle.jsp">Find a Bottle</a>
+                                                <a href="#">Find a Bottle</a>
                                             </li>
                                             <li>
-                                                <a href="updateBottle.jsp">Update a Bottle</a>
+                                                <a href="#">Update a Bottle</a>
                                             </li>
                                             <li>
-                                                <a href="deleteBottle.jsp">Delete a Bottle</a>
+                                                <a href="#">Delete a Bottle</a>
                                             </li>
                                         </ul>
                                         <!-- /.nav-third-level -->
@@ -179,10 +152,10 @@
                                 <a href="#"><i class="fa fa-file-text-o fa-fw"></i> Orders<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="addOrder.jsp">Create an Order</a>
+                                        <a href="#">Create an Order</a>
                                     </li>
                                     <li>
-                                        <a href="findOrder.jsp">Find an Order</a>
+                                        <a href="#">Find an Order</a>
                                     </li>
                                     <li>
                                         <a href="#">Update an Order</a>
@@ -291,15 +264,25 @@
             <!-- Page Content -->
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Recipe Update</h1>
-                        <% if(updated){ %>
-                        <h2>Recipe <% out.print(name); %> updated successfully!</h2>
-                        <% } else { %>
-                        <h2>Recipe <% out.print(name); %> could not be updated.</h2>
-                        <h3>This was the reason:</h3>
-                        <p> <% out.print(message); %> </p>
-                        <% } %>
+                    <div class="col-md-push-3 col-md-9">
+                        <h1>Orders Found</h1>
+
+                        <table class="table table-striped">
+                            <thead>
+                            <th>Selling Price</th>
+                            <th>Size</th>
+                            </thead>
+                            <tbody>
+                                <%
+                                    while (iterator.hasNext()) {
+                                        Order_Components oc = iterator.next();
+                                        out.write("<tr>");
+                                        out.write("<td>" + oc.getOrderId().getSellingPrice()+"</td>");
+                                        out.write("<td>" + oc.getOrderId().getSize()+"</td>");
+                                    }
+                                %>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
