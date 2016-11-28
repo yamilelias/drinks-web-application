@@ -25,11 +25,12 @@ public class Order_Details {
 
     }
 
-    public Order_Details(double sp, String size, Recipe_Details recipeId) {
+    public Order_Details(double sp, String size, Recipe_Details recipeId,BackendlessUser userId) {
         orderDate = Calendar.getInstance().getTime();
         sellingPrice = sp;
         this.size = size;
         this.recipeId = recipeId;
+        this.userId = userId;
     }
 
     public java.util.Date getOrderDate() {
