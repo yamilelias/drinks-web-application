@@ -74,32 +74,19 @@
                             <th>Price Big</th>
                             <th>Price Medium</th>
                             <th>Price Small</th>
+                            <th>Alcohol Type</th>
+                            <th>Parts</th>
                         </thead>
                         <tbody>
                             <%
-                                boolean first=true;
                                 while (iterator.hasNext()) {
                                     Recipe_Components rd = iterator.next();
                                     out.write("<tr>");
-                                    if(first){
                                     out.write("<td>" + rd.getRecipeId().getName()+"</td>");
                                     out.write("<td>" + rd.getRecipeId().getDescription()+"</td>");
                                     out.write("<td>" + rd.getRecipeId().getPriceBig()+"</td>");
                                     out.write("<td>" + rd.getRecipeId().getPriceMedium()+"</td>");
                                     out.write("<td>" + rd.getRecipeId().getPriceSmall()+"</td>");
-                            %>
-                            <thead>
-                            <th>Alcohol Type</th>
-                            <th>Parts</th>
-                            </thead>
-                            <%
-                                    }
-                                    first=false;
-
-                            %>
-                        </tbody>
-                        <tbody>
-                            <%
                                     out.write("<td>" + rd.getAlcoholType()+"</td>");
                                     out.write("<td>" + rd.getParts()+"</td>");
                                     out.write("</tr>");

@@ -1,15 +1,12 @@
 <%-- 
-    Document   : recipefound
-    Created on : Nov 20, 2016, 12:03:31 AM
-    Author     : Dilan
+    Document   : viewAllRecipes
+    Created on : Nov 28, 2016, 12:28:16 AM
+    Author     : Yamil Elías <yamileliassoto@gmail.com>
 --%>
-
 
 <%@page import="com.backendless.Backendless"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.backendless.BackendlessCollection"%>
-<%@page import="com.backendless.persistence.QueryOptions"%>
-<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
 <%@page import="com.backendless.drinks.data.Recipe_Details" %>
 <%@page import="com.backendless.drinks.data.Recipe_Components" %>
 
@@ -43,15 +40,7 @@
         <![endif]-->
         
         <%
-            String column = request.getParameter("column");
-            String value = request.getParameter("value");
-            
-            BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-            dataQuery.setWhereClause("recipeId."+column + " = '" + value + "'");
-            QueryOptions queryOptions = new QueryOptions();
-            queryOptions.addRelated("recipeId");
-            dataQuery.setQueryOptions(queryOptions);
-            BackendlessCollection<Recipe_Components> recipes = Backendless.Data.of(Recipe_Components.class).find(dataQuery);
+            BackendlessCollection<Recipe_Components> recipes = Backendless.Data.of(Recipe_Components.class).find();
             Iterator<Recipe_Components> iterator = recipes.getCurrentPage().iterator();
             
         %>
@@ -65,7 +54,7 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <h1>Recipes Found</h1>
+                    <h1>All Recipes</h1>
 
                     <table class="table table-striped">
                         <thead>

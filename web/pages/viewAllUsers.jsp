@@ -1,7 +1,7 @@
 <%-- 
-    Document   : viewAllBottles
-    Created on : Nov 23, 2016, 11:29:13 AM
-    Author     : Dilan
+    Document   : viewAllUsers
+    Created on : Nov 27, 2016, 11:57:21 PM
+    Author     : Yamil Elías <yamileliassoto@gmail.com>
 --%>
 
 <%@page import="com.backendless.Backendless"%>
@@ -9,7 +9,7 @@
 <%@page import="com.backendless.BackendlessCollection"%>
 <%@page import="com.backendless.persistence.QueryOptions"%>
 <%@page import="com.backendless.persistence.BackendlessDataQuery"%>
-<%@page import="com.backendless.drinks.data.Bottle" %>
+<%@page import="com.backendless.BackendlessUser"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -41,13 +41,8 @@
         <![endif]-->
 
         <%  
-            //Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
-            BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-            dataQuery.setWhereClause("");
-            QueryOptions queryOptions = new QueryOptions();
-            dataQuery.setQueryOptions(queryOptions);
-            BackendlessCollection<Bottle> bottles = Backendless.Data.of(Bottle.class).find(dataQuery);
-            Iterator<Bottle> iterator = bottles.getCurrentPage().iterator();
+            BackendlessCollection<BackendlessUser> user = Backendless.Data.of(BackendlessUser.class).find();
+            Iterator<BackendlessUser> iterator = user.getCurrentPage().iterator();
             
         %>
     </head>
@@ -59,24 +54,33 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-push-3 col-md-9">
-                        <h1>Bottles</h1>
+                        <h1>Users</h1>
 
                         <table class="table table-striped">
                             <thead>
-                            <th>Alcohol Type</th>
-                            <th>Name</th>
-                            <th>Milliliters</th>
-                            <th>Cost</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Last Login</th>
+                            <th>Permission</th>
                             </thead>
                             <tbody>
                                 <%
                                     while (iterator.hasNext()) {
-                                        Bottle b = iterator.next();
+                                        BackendlessUser u = iterator.next();
+                                        String permission = "";
+                                        if(Integer.parseInt(u.getProperty("permission").toString()) == 1){
+                                            permission = "admin";
+                                        } else{
+                                            permission = "user";
+                                        }
+                                            
                                          out.write("<tr>");
-                                        out.write("<td>" + b.getAlcoholType()+"</td>");
-                                        out.write("<td>" + b.getName()+"</td>");
-                                        out.write("<td>" + b.getMililiters()+"</td>");
-                                        out.write("<td>$" + b.getBottleCost()+"</td>");
+                                        out.write("<td>" + (String)u.getProperty("firstName")+"</td>");
+                                        out.write("<td>" + (String)u.getProperty("lastName")+"</td>");
+                                        out.write("<td>" + (String)u.getProperty("email")+"</td>");
+                                        out.write("<td>" + u.getProperty("lastLogin")+"</td>");
+                                        out.write("<td>" + permission +"</td>");
                                         out.write("<tr>");
                                     }
                                 %>
@@ -105,3 +109,4 @@
         <script src="../dist/js/sb-admin-2.js"></script>
     </body>
 </html>
+

@@ -1,22 +1,22 @@
 <%-- 
-    Document   : viewAllBottles
-    Created on : Nov 23, 2016, 11:29:13 AM
-    Author     : Dilan
+    Document   : viewAllOrders
+    Created on : Nov 28, 2016, 12:33:50 AM
+    Author     : Yamil Elías <yamileliassoto@gmail.com>
 --%>
 
 <%@page import="com.backendless.Backendless"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.backendless.BackendlessCollection"%>
-<%@page import="com.backendless.persistence.QueryOptions"%>
-<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
-<%@page import="com.backendless.drinks.data.Bottle" %>
+<%@page import="com.backendless.drinks.data.Order_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Order_Components" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Users</title>
+        <title>Recipe Found</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,54 +40,52 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <%  
-            //Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
-            BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-            dataQuery.setWhereClause("");
-            QueryOptions queryOptions = new QueryOptions();
-            dataQuery.setQueryOptions(queryOptions);
-            BackendlessCollection<Bottle> bottles = Backendless.Data.of(Bottle.class).find(dataQuery);
-            Iterator<Bottle> iterator = bottles.getCurrentPage().iterator();
+        <%
+            BackendlessCollection<Recipe_Details> recipe = Backendless.Data.of(Recipe_Details.class).find();
+            Iterator<Recipe_Details> iterator2 = recipe.getCurrentPage().iterator();
+            Recipe_Details rd = iterator2.next();
+
+            BackendlessCollection<Order_Details> orders = Backendless.Data.of(Order_Details.class).find();
+            Iterator<Order_Details> iterator = orders.getCurrentPage().iterator();
             
         %>
     </head>
     <body>
         <div id="wrapper">
+
             <jsp:include page="nav.jsp"/>
 
             <!-- Page Content -->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-push-3 col-md-9">
-                        <h1>Bottles</h1>
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h1>All Orders</h1>
 
                         <table class="table table-striped">
                             <thead>
-                            <th>Alcohol Type</th>
-                            <th>Name</th>
-                            <th>Milliliters</th>
-                            <th>Cost</th>
+                            <th>User</th>
+                            <th>Selling Price</th>
+                            <th>Size</th>
                             </thead>
                             <tbody>
                                 <%
                                     while (iterator.hasNext()) {
-                                        Bottle b = iterator.next();
-                                         out.write("<tr>");
-                                        out.write("<td>" + b.getAlcoholType()+"</td>");
-                                        out.write("<td>" + b.getName()+"</td>");
-                                        out.write("<td>" + b.getMililiters()+"</td>");
-                                        out.write("<td>$" + b.getBottleCost()+"</td>");
+                                        Order_Details oc = iterator.next();
                                         out.write("<tr>");
+                                        out.write("<td>" + (String) session.getAttribute("email") +"</td>");
+                                        out.write("<td>" + oc.getSellingPrice()+"</td>");
+                                        out.write("<td>" + oc.getSize()+"</td>");
+                                        out.write("</tr>");
                                     }
                                 %>
                             </tbody>
                         </table>
+                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.col-lg-12 -->
+                    <!-- /.row -->
                 </div>
-                <!-- /.row -->
+                <!-- /.container-fluid -->
             </div>
-            <!-- /.container-fluid -->
 
         </div>
         <!-- /#wrapper -->
@@ -105,3 +103,4 @@
         <script src="../dist/js/sb-admin-2.js"></script>
     </body>
 </html>
+
