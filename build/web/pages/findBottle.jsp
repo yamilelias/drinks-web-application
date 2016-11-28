@@ -46,21 +46,21 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h5>Find a Bottle</h5>
+                        <h2>Find a Bottle</h2>
 
-                        <form action="bottlefound.jsp" method="get">
+                        <form action="bottlefound.jsp" method="get" class="form-group">
                             <div class="block">
                                 <label for="column">Find by:</label>
-                                <select name="column">
+                                <select name="column" class="form-control">
                                     <option value="name">Name</option>
                                     <option value="alcoholType">Alcohol Type</option>
                                     <option value="mililiters">Milliliters</option>
                                     <option value="bottleCost">Cost</option>
                                 </select>
-                                <input type="text" name="value" />
+                                <input type="text" name="value" class="form-control"/>
                             </div>
                             <div class="btns">
-                                <input type="submit" value="Submit" />
+                                <input type="submit" value="Submit" class="btn btn-default"/>
                             </div>
                         </form>
                     </div>

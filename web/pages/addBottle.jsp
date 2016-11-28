@@ -33,23 +33,23 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                         <h5>Add a Bottle</h5>
+                         <h2>Add a Bottle</h2>
             
-                        <form action="bottleadded.jsp" method="get">
+                        <form action="bottleadded.jsp" method="get" class="form-group">
                             <div class="block">
-                                <label for="name">Name:</label><input type="text" name="name" placeholder="name" />
+                                <label for="name">Name:</label><input type="text" name="name" placeholder="name" class="form-control"/>
                             </div>
                             <div class="block">
-                                <label for="type">Alcohol Type:</label><input type="text" name="type" placeholder="alcohol type" />
+                                <label for="type">Alcohol Type:</label><input type="text" name="type" placeholder="alcohol type" class="form-control"/>
                             </div>
                             <div class="block">
-                                <label for="mililiters">Mililiters:</label><input type="number" name="mililiters" placeholder="mililiters" />
+                                <label for="mililiters">Mililiters:</label><input type="number" name="mililiters" placeholder="mililiters" class="form-control"/>
                             </div>
                             <div class="block">
-                                <label for="cost">Cost:</label>$<input type="number" min="0" name="cost" placeholder="cost" />
+                                <label for="cost">Cost:</label>$<input type="number" min="0" name="cost" placeholder="cost" class="form-control"/>
                             </div>
                             <div class="btns">
-                                <input type="submit" value="Submit" />
+                                <input type="submit" value="Submit" class="btn btn-default"/>
                             </div>
                         </form>
                     </div>
