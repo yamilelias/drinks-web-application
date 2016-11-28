@@ -62,9 +62,9 @@
         <jsp:include page="nav.jsp"/>
 
         <!-- Page Content -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-push-3 col-md-9">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
                     <h1>Recipes Found</h1>
 
                     <table class="table table-striped">
@@ -95,7 +95,7 @@
                             <%
                                     }
                                     first=false;
-                                
+
                             %>
                         </tbody>
                         <tbody>
@@ -108,9 +108,8 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
 

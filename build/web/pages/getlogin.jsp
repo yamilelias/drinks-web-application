@@ -33,6 +33,9 @@
             
             }
             if(valid){
+                BackendlessUser user = Backendless.UserService.CurrentUser();
+                
+                session.setAttribute("name", user.getProperty("firstName"));
                 //session.setAttribute("id",id);
                 session.setAttribute("email",email);
                 session.setAttribute("pass",pass);

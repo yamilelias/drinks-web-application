@@ -3,6 +3,18 @@
     Created on : Nov 25, 2016, 10:46:57 AM
     Author     : Dilan
 --%>
+
+<%@page import="com.backendless.Backendless"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="com.backendless.BackendlessCollection"%>
+<%@page import="com.backendless.persistence.QueryOptions"%>
+<%@page import="com.backendless.persistence.BackendlessDataQuery"%>
+<%@page import="com.backendless.drinks.data.Recipe_Details" %>
+<%@page import="com.backendless.drinks.data.Recipe_Components" %>
+<%@page import="com.backendless.drinks.data.Bottle" %>
+<%@page import="com.backendless.drinks.data.Order_Details" %>
+<%@page import="com.backendless.drinks.data.Order_Components" %>
+<%@page import="com.backendless.BackendlessUser"%>
 <html lang="en">
 
 <head>
@@ -36,6 +48,31 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <%
+        /* Variables to be print*/
+        int users = 0;
+        int recipes = 0;
+        int bottles = 0;
+        int orders = 0;
+        
+        /* Users Query */
+        BackendlessCollection<BackendlessUser> user = Backendless.Data.of(BackendlessUser.class).find();
+        users = user.getCurrentPage().size();
+        
+        /* Recipes Query */
+        BackendlessCollection<Recipe_Components> recipe = Backendless.Data.of(Recipe_Components.class).find();
+        recipes = recipe.getCurrentPage().size();
+
+        /* Bottles Query */
+        BackendlessCollection<Bottle> bottle = Backendless.Data.of(Bottle.class).find();
+        bottles = bottle.getCurrentPage().size();
+
+        /* Order Query */
+        BackendlessCollection<Order_Details> order = Backendless.Data.of(Order_Details.class).find();
+        orders = order.getCurrentPage().size();
+
+    %>
 
 </head>
 
@@ -61,12 +98,12 @@
                                     <i class="fa fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
+                                    <div class="huge"><% out.print(users); %></div>
                                     <div>Total Users</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="viewAllUsers.jsp">
                             <div class="panel-footer">
                                 <span class="pull-left">View All</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -83,7 +120,7 @@
                                     <i class="fa fa-glass fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div class="huge"><% out.print(recipes); %></div>
                                     <div>Total Recipes</div>
                                 </div>
                             </div>
@@ -105,7 +142,7 @@
                                     <i class="fa fa-beer fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">64</div>
+                                    <div class="huge"><% out.print(bottles); %></div>
                                     <div>Total Bottles</div>
                                 </div>
                             </div>
@@ -127,7 +164,7 @@
                                     <i class="fa fa-file-text-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
+                                    <div class="huge"><% out.print(orders); %></div>
                                     <div>Orders Today</div>
                                 </div>
                             </div>

@@ -78,7 +78,7 @@
                                     out.write("<td>" + b.getAlcoholType()+"</td>");
                                     out.write("<td>" + b.getName()+"</td>");
                                     out.write("<td>" + b.getMililiters()+"</td>");
-                                    out.write("<td>" + b.getBottleCost()+"</td>");
+                                    out.write("<td>$" + b.getBottleCost()+"</td>");
                                 }
                             %>
                         </tbody>

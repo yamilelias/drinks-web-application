@@ -10,7 +10,6 @@
 <%@page import="com.backendless.persistence.BackendlessDataQuery"%>
 <%@page import="com.backendless.drinks.data.Order_Details" %>
 <%@page import="com.backendless.drinks.data.Recipe_Details" %>
-<%@page import="com.backendless.drinks.data.Defaults" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
@@ -60,7 +59,6 @@
                                 <label>Find by:</label>
                                 <select name="column">
                                     <%
-                                        Backendless.initApp(Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
                                         BackendlessDataQuery dataQuery = new BackendlessDataQuery();
                                         dataQuery.setWhereClause("");
                                         BackendlessCollection<Recipe_Details> recipes = Backendless.Data.of(Recipe_Details.class).find(dataQuery);
